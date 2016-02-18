@@ -80,8 +80,8 @@ server {
         ssl on;
         ssl_certificate /etc/letsencrypt/live/foo.bar/fullchain.pem;
         ssl_certificate_key /etc/letsencrypt/live/foo.bar/privkey.pem;
-        access_log /home/ubuntu/metro-hook/access.log;
-        error_log /home/ubuntu/metro-hook/error.log;
+        access_log /home/foobar/github-web-hook-flask-restful/access.log;
+        error_log /home/foobar/github-web-hook-flask-restful/error.log;
         location / {
                 include proxy_params;
                 proxy_pass http://unix:/home/foobar/github-web-hook-flask-restful/hook.sock;
