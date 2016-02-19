@@ -76,7 +76,9 @@ sudo systemctl enable webhook.service
 ```
 
 ### nginx
-Example nginx config file with ssl.
+Example nginx config file with ssl. Note that I have pointed the logs for this server to the webhook logs directory. I find it convenient, but you probably don't want to do that unless you obsessively delete your logs, or have configured [logrotate](http://linux.die.net/man/8/logrotate) to look for the logs there.
+
+And I'm just saying: I sure do like [letsencrypt](https://letsencrypt.org/howitworks/technology/).
 
 ```nginx
 server {
