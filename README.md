@@ -6,7 +6,7 @@ This service does not "do" anything but call an external script. If you don't li
 Before setting this up, have a quick skim of the GitHub [Webhooks](https://developer.github.com/webhooks/) Developer Documentation, so you can see what is expected.
 
 ## A Word of Warning
-Know what you are doing when creating your payload script. Your payload script can do just about anything you give it permission to do. If you are going to use it to automate deployment of a website with git (which is what I originally wrote it for), then make sure you have thoroughly tested your script, have it's permissions strictly limited, and make sure it throws useful errors. A script run with too many privileges will rebel, raining woe and a stink of failure onto your house. Your future self will thank you for forethought.
+Know what you are doing when creating your payload script. Your payload script can do just about anything you give it permission to do. If you are going to use it to automate deployment of a website with git (which is what I originally wrote it for), then make sure you have thoroughly tested your script, have it's permissions strictly limited, and make sure it throws useful errors. A script run with too many privileges will rebel, raining woe and a stink of failure onto your house. Your future self will thank you.
 
 ## Key Creation
 You'll need to generate a "Secret" key for github's webhooks to use when generating a signature. I just use an RFC 4122 v4 key, you may have a better idea.
@@ -46,16 +46,17 @@ PAYLOAD_SCRIPT = "/path/to/payload-script.py"
 ## Suggestions for Web Service Configuration
 You may be tempted to just create a little script to run API/WebHook, using Flask's built-in wsgi server. That would be kind of lazy, and frankly, I'm ashamed of you for suggesting it.
 
-It's pretty simple to set this all up as a service. The instructions below should work on any system running systemd. There are a blue million instructions on how to start a service with init, so I'll just let you google that.
+The instructions below should work on any system running systemd and nginx. 
 
 ### systemd
 
 /etc/systemd/system/webhook.service
 
-Example shows github-web-hook-flask-restful installed in foobar's home directory with virtualenv installed
+Example assumes github-web-hook-flask-restful installed in foobar's home directory, logfiles in default spot and virtualenv installed.
+
 ```ini
 [Unit]
-Description=My Elegant Hook
+Description=My Hook
 After=network.target
 
 [Service]
@@ -67,6 +68,11 @@ ExecStart=/home/foobar/github-web-hook-flask-restful/venv/bin/gunicorn --workers
 
 [Install]
 WantedBy=multi-user.target
+```
+
+After you have tested this with the rest, don't forget to run 
+```bash
+sudo systemctl enable webhook.service
 ```
 
 ### nginx
@@ -93,7 +99,7 @@ server {
 
 After you get your service all set up and running you can try this curl command to simulate a call from github.  Expect it to fail with a bad signature.
 ```bash
-curl -i -A "GitHub-Hookshot/044aadd" -H "Content-Type: application/json" -H "X-Hub-Signature: testing123"  -H "Accept: application/json" -X POST -d '{"action": "opened", "issue": {"url": "https://api.github.com/repos/octocat/Hello-World/issues/1347", "number": 1347}, "sender": {"login": "octocat", "id": 1}, "repository": {"owner": {"login": "octocat", "id": 1}, "id": 1296269, "full_name": "octocat/Hello-World"}}' http://localhost:5000
+curl -i -A "GitHub-Hookshot/044aadd" -H "Content-Type: application/json" -H "X-Hub-Signature: testing123"  -H "Accept: application/json" -X POST -d '{"action": "opened", "issue": {"url": "https://api.github.com/repos/octocat/Hello-World/issues/1347", "number": 1347}, "sender": {"login": "octocat", "id": 1}, "repository": {"owner": {"login": "octocat", "id": 1}, "id": 1296269, "full_name": "octocat/Hello-World"}}' http://foo.bar:40443
 ```
 
 ## Testing Your Payload Script
@@ -106,4 +112,7 @@ There are two bash scripts in "tests". Point your payload script at one of them,
 1. check your logfile
 
 "fail.bash" should return an error.
+
 "succeed.bash" should return 200.
+
+Now go run something useful!
