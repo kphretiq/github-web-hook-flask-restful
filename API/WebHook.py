@@ -15,8 +15,6 @@ class WebHook(Resource):
         return "nothing here"
 
     def post(self):
-        app.config["LOGGER"].debug("Well, aren't you clever.")
-        return True
 
         # set to debug to avoid filling up logs if someone is playing
         # silly buggers
@@ -26,6 +24,9 @@ class WebHook(Resource):
             ]):
             app.config["LOGGER"].debug("Missing Sig or Hookshot")
             return "Missing Header Key", 422
+
+        app.config["LOGGER"].debug("ok")
+        return True
 
         try:
             data = request.get_json()
