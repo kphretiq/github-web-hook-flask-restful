@@ -57,9 +57,9 @@ class WebHook(Resource):
             out, err = out.strip(), err.strip()
 
             if err:
-                app.app.config["LOGGER"].warning(err)
+                app.config["LOGGER"].warning(err)
             if out:
-                app.app.config["LOGGER"].debug(err)
+                app.config["LOGGER"].debug(err)
 
             return str(out)
         except Exception as error:
