@@ -11,6 +11,9 @@ api = Api(app)
 
 class WebHook(Resource):
 
+    def get(self):
+        return "nothing here"
+
     def post(self):
         # set to debug to avoid filling up logs if someone is playing
         # silly buggers
