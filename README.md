@@ -97,10 +97,13 @@ curl -i -A "GitHub-Hookshot/044aadd" -H "Content-Type: application/json" -H "X-H
 ```
 
 ## Testing Your Payload Script
-To test your payload script, I suggest you:
+There are two bash scripts in "tests". Point your payload script at one of them, and:
 
 1. create a throwaway repo on github
 1. add a single file to the repo and commit it.
 1. create your webhook on github, making sure to specify the url properly, the content as "application/json" and the correct key, matching the one you created in config.py
 1. make an edit and push your changes to github.
 1. check your logfile
+
+"fail.bash" should return an error.
+"succeed.bash" should return 200.
