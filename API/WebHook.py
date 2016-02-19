@@ -23,6 +23,7 @@ class WebHook(Resource):
             ]):
             app.config["LOGGER"].debug("Missing Sig or Hookshot")
             return "Missing Header Key", 422
+        return True
 
         try:
             data = request.get_json()
