@@ -1,7 +1,7 @@
 # github-web-hook-flask-restful
 Flask-based webhook using flask-restful api to run a script in response to a GitHub webhook call.
 
-This service does not "do" anything but call an external script. If you don't like this technique, fork it and have at it.
+This one does not "do" anything but call an external script. If you want something more sophisticated, you may want to look elsewhere.
 
 Before setting this up, have a quick skim of the GitHub [Webhooks](https://developer.github.com/webhooks/) Developer Documentation, so you can see what is expected.
 
