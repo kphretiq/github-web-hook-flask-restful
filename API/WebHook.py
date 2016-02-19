@@ -48,18 +48,21 @@ class WebHook(Resource):
             app.config["LOGGER"].debug(app.config["X_HUB_SIGNATURE"])
             return "invalid key", 422 
 
-        # run your PAYLOAD_SCRIPT
-        out, err = Popen([
-            app.config["PAYLOAD_SCRIPT"]
-            ], stdout=PIPE, stderr=PIPE).communicate()
+        try:
+            # run your PAYLOAD_SCRIPT
+            out, err = Popen([
+                app.config["PAYLOAD_SCRIPT"]
+                ], stdout=PIPE, stderr=PIPE).communicate()
 
-        out, err = out.strip(), err.strip()
+            out, err = out.strip(), err.strip()
 
-        if err:
-            app.app.config["LOGGER"].warning(err)
-        if out:
-            app.app.config["LOGGER"].debug(err)
+            if err:
+                app.app.config["LOGGER"].warning(err)
+            if out:
+                app.app.config["LOGGER"].debug(err)
 
-        return str(out)
+            return str(out)
+        except Exception as error:
+            return error.msg, 400
 
 api.add_resource(WebHook, "/")
