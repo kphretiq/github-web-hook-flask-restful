@@ -59,6 +59,6 @@ class WebHook(Resource):
         if out:
             app.app.config["LOGGER"].debug(err)
 
-        return out
+        return str(out)
 
 api.add_resource(WebHook, "/")
