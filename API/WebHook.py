@@ -63,6 +63,7 @@ class WebHook(Resource):
 
             return str(out)
         except Exception as error:
+            app.config["LOGGER"].debug(error)
             return error.msg, 400
 
 api.add_resource(WebHook, "/")
