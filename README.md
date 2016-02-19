@@ -20,7 +20,7 @@ You'll need to generate a "Secret" key for github's webhooks to use when generat
 
 ## Hook Listener Configuration
 
-Edit config.py, changing the following as you see fit.
+Copy config.py.example to config.py. Change following as you see fit.
 
 ### X_HUB_SIGNATURE
 The "X_HUB_SIGNATURE" value in config.py must match the key  you created above. Neglecting this will end in bitter recriminations.
