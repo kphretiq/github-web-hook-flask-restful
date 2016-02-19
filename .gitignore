@@ -3,3 +3,4 @@
 .env
 venv
 logs/*
+config.py
