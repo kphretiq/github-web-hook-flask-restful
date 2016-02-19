@@ -51,20 +51,21 @@ class WebHook(Resource):
         # try for ease of debugging. I learned the hard way
         try:
             # run your PAYLOAD_SCRIPT
-            out, err = Popen([
-                app.config["PAYLOAD_SCRIPT"]
-                ], stdout=PIPE, stderr=PIPE).communicate()
+            results = Popen(
+                    app.config["PAYLOAD_SCRIPT"],
+                    stdout=PIPE,
+                    stderr=PIPE
+                    ).communicate()
 
-            out, err = out.strip(), err.strip()
+            if results.returncode:
+                error = results.[1].strip()
+                app.config["LOGGER"].warning(error)
+                return error, 400
 
-            if err:
-                app.config["LOGGER"].warning(err)
-            if out:
-                app.config["LOGGER"].debug(err)
+            return str(results[0].strip()), 200
 
-            return str(out)
         except Exception as error:
             app.config["LOGGER"].debug(error)
-            return error.msg, 400
+            return error.msg, 500
 
 api.add_resource(WebHook, "/")
