@@ -31,9 +31,6 @@ class WebHook(Resource):
             app.config["LOGGER"].warning(error)
             return error.msg, 415
 
-        app.config["LOGGER"].debug(data)
-        return True
-
         try:
             # extract key from hex digest of payload
             sig = "sha1=%s"%hmac.new(
@@ -44,6 +41,9 @@ class WebHook(Resource):
         except Exception as error:
             app.config["LOGGER"].warning(error)
             return error.msg, 400
+
+        app.config["LOGGER"].debug(sig)
+        return True
 
         if not request.headers["X-Hub-Signature"] == sig:
             app.config["LOGGER"].debug(sig)
