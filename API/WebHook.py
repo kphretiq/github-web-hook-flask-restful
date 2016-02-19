@@ -25,14 +25,14 @@ class WebHook(Resource):
             app.config["LOGGER"].debug("Missing Sig or Hookshot")
             return "Missing Header Key", 422
 
-        app.config["LOGGER"].debug("ok")
-        return True
-
         try:
             data = request.get_json()
         except Exception as error:
             app.config["LOGGER"].warning(error)
             return error.msg, 415
+
+        app.config["LOGGER"].debug(data)
+        return True
 
         try:
             # extract key from hex digest of payload
