@@ -48,6 +48,7 @@ class WebHook(Resource):
             app.config["LOGGER"].debug(app.config["X_HUB_SIGNATURE"])
             return "invalid key", 422 
 
+        # try for ease of debugging. I learned the hard way
         try:
             # run your PAYLOAD_SCRIPT
             out, err = Popen([
